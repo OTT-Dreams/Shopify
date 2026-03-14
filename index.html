@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VELOUR — Premium Clothing</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF8F5;
+    --charcoal: #1A1A1A;
+    --sand: #C8B99A;
+    --rust: #C0533A;
+    --muted: #7A7065;
+    --light-border: #E8E2DA;
+    --card-bg: #FFFFFF;
+    --tag-bg: #F0EBE3;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--charcoal); overflow-x: hidden; }
+
+  /* ── ANNOUNCEMENT BAR ── */
+  .announcement {
+    background: var(--charcoal);
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 10px;
+  }
+  .announcement span { color: var(--sand); }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 999;
+    background: rgba(250,248,245,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--light-border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 72px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; font-weight: 700;
+    letter-spacing: 3px; color: var(--charcoal);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; font-weight: 500;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--charcoal); }
+  .nav-actions { display: flex; gap: 20px; align-items: center; }
+  .nav-actions button {
+    background: none; border: none; cursor: pointer; font-size: 20px;
+    color: var(--charcoal); position: relative;
+  }
+  .cart-badge {
+    position: absolute; top: -6px; right: -6px;
+    background: var(--rust); color: #fff;
+    font-size: 10px; font-weight: 600;
+    border-radius: 50%; width: 16px; height: 16px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-search {
+    display: flex; align-items: center;
+    border: 1px solid var(--light-border); border-radius: 24px;
+    padding: 6px 14px; gap: 8px; background: #fff;
+  }
+  .nav-search input {
+    border: none; outline: none; background: none;
+    font-size: 13px; width: 140px; color: var(--charcoal);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    display: grid; grid-template-columns: 1fr 1fr; min-height: 88vh;
+  }
+  .hero-left {
+    background: #2B2622;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 64px; position: relative; overflow: hidden;
+  }
+  .hero-left::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80') center/cover no-repeat;
+    opacity: .55;
+  }
+  .hero-left-content { position: relative; z-index: 2; }
+  .hero-tag {
+    display: inline-block;
+    background: var(--rust); color: #fff;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 4px; margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 5vw, 68px); line-height: 1.1;
+    color: #fff; margin-bottom: 20px;
+  }
+  .hero-sub {
+    font-size: 15px; color: rgba(255,255,255,.7);
+    line-height: 1.7; max-width: 360px; margin-bottom: 36px;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #fff; color: var(--charcoal);
+    font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    padding: 16px 32px; border-radius: 4px; border: none; cursor: pointer;
+    text-decoration: none; transition: all .25s;
+  }
+  .btn-primary:hover { background: var(--sand); color: #fff; }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent; color: var(--charcoal);
+    font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    padding: 15px 32px; border-radius: 4px; border: 2px solid var(--charcoal);
+    cursor: pointer; text-decoration: none; transition: all .25s;
+  }
+  .btn-outline:hover { background: var(--charcoal); color: #fff; }
+
+  .hero-right {
+    display: grid; grid-template-rows: 1fr 1fr;
+  }
+  .hero-right-top {
+    background: #E8E0D5;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+  }
+  .hero-right-top img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+  .hero-right-top:hover img { transform: scale(1.04); }
+  .hero-right-bottom {
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .hero-mini {
+    overflow: hidden; position: relative; cursor: pointer;
+  }
+  .hero-mini img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+  .hero-mini:hover img { transform: scale(1.06); }
+  .hero-mini-label {
+    position: absolute; bottom: 16px; left: 16px;
+    background: rgba(255,255,255,.9); font-size: 12px;
+    letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
+    padding: 6px 12px; border-radius: 4px;
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    background: var(--charcoal); overflow: hidden; padding: 14px 0;
+    white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-block;
+    animation: marquee 22s linear infinite;
+  }
+  .marquee-track span {
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--sand); margin: 0 24px;
+  }
+  .marquee-track span.dot { color: var(--rust); margin: 0 8px; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 40px;
+  }
+  .section-eyebrow {
+    font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--rust); font-weight: 600; margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3vw, 42px); font-weight: 700;
+    color: var(--charcoal); line-height: 1.2;
+  }
+
+  /* ── FILTER TABS ── */
+  .filters {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px;
+  }
+  .filter-btn {
+    background: none; border: 1px solid var(--light-border);
+    font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+    font-weight: 500; padding: 9px 20px; border-radius: 24px;
+    cursor: pointer; color: var(--muted); transition: all .2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--charcoal); color: #fff; border-color: var(--charcoal);
+  }
+
+  /* ── PRODUCT GRID ── */
+  section.products { padding: 80px 48px; }
+  .product-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px;
+  }
+
+  .product-card {
+    background: var(--card-bg);
+    border-radius: 12px; overflow: hidden;
+    cursor: pointer; transition: box-shadow .3s, transform .3s;
+  }
+  .product-card:hover {
+    box-shadow: 0 20px 48px rgba(0,0,0,.1);
+    transform: translateY(-4px);
+  }
+  .product-img-wrap {
+    position: relative; overflow: hidden;
+    aspect-ratio: 3/4; background: #F3EFE9;
+  }
+  .product-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .5s ease;
+  }
+  .product-card:hover .product-img-wrap img { transform: scale(1.06); }
+  .product-badge {
+    position: absolute; top: 12px; left: 12px;
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+    font-weight: 700; padding: 5px 10px; border-radius: 4px;
+  }
+  .badge-sale { background: var(--rust); color: #fff; }
+  .badge-new { background: var(--charcoal); color: #fff; }
+  .badge-hot { background: #E8A000; color: #fff; }
+  .product-actions {
+    position: absolute; bottom: 12px; left: 12px; right: 12px;
+    display: flex; gap: 8px;
+    transform: translateY(12px); opacity: 0;
+    transition: all .3s;
+  }
+  .product-card:hover .product-actions { transform: translateY(0); opacity: 1; }
+  .btn-add-cart {
+    flex: 1; background: var(--charcoal); color: #fff;
+    border: none; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+    font-weight: 600; padding: 12px; border-radius: 6px;
+    cursor: pointer; transition: background .2s;
+  }
+  .btn-add-cart:hover { background: var(--rust); }
+  .btn-wish {
+    background: #fff; border: none; border-radius: 6px;
+    width: 42px; font-size: 16px; cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-wish:hover { background: #ffe0e0; }
+
+  .product-info { padding: 16px; }
+  .product-brand {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4px;
+  }
+  .product-name {
+    font-size: 15px; font-weight: 600; color: var(--charcoal);
+    margin-bottom: 8px; line-height: 1.4;
+  }
+  .product-colors { display: flex; gap: 6px; margin-bottom: 10px; }
+  .color-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid #fff; box-shadow: 0 0 0 1px #ddd; cursor: pointer;
+  }
+  .product-price { display: flex; align-items: center; gap: 8px; }
+  .price-current { font-size: 16px; font-weight: 700; color: var(--charcoal); }
+  .price-old {
+    font-size: 13px; color: var(--muted);
+    text-decoration: line-through;
+  }
+  .price-save {
+    font-size: 11px; background: #FFF0ED; color: var(--rust);
+    padding: 2px 7px; border-radius: 4px; font-weight: 600;
+  }
+  .product-rating { display: flex; align-items: center; gap: 4px; margin-top: 8px; }
+  .stars { color: #F5A623; font-size: 12px; }
+  .rating-count { font-size: 11px; color: var(--muted); }
+
+  /* ── BANNER STRIP ── */
+  .banner-strip {
+    margin: 0 48px 80px;
+    background: var(--charcoal);
+    border-radius: 16px; overflow: hidden;
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 360px;
+  }
+  .banner-content {
+    padding: 60px; display: flex; flex-direction: column; justify-content: center;
+  }
+  .banner-eyebrow {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--sand); margin-bottom: 16px;
+  }
+  .banner-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 3vw, 52px); color: #fff;
+    line-height: 1.15; margin-bottom: 20px;
+  }
+  .banner-title em { color: var(--sand); font-style: normal; }
+  .banner-text { color: rgba(255,255,255,.65); font-size: 15px; line-height: 1.7; margin-bottom: 32px; }
+  .banner-img {
+    position: relative; overflow: hidden;
+  }
+  .banner-img img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ── CATEGORIES ── */
+  .categories { padding: 80px 48px; }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 200px 200px;
+    gap: 16px;
+  }
+  .cat-card {
+    position: relative; overflow: hidden; border-radius: 12px; cursor: pointer;
+  }
+  .cat-card:first-child { grid-row: span 2; }
+  .cat-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .5s;
+  }
+  .cat-card:hover img { transform: scale(1.07); }
+  .cat-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.65) 0%, transparent 55%);
+    display: flex; align-items: flex-end; padding: 24px;
+  }
+  .cat-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700; color: #fff;
+  }
+  .cat-count { font-size: 12px; color: rgba(255,255,255,.7); margin-top: 2px; }
+
+  /* ── FEATURES ── */
+  .features {
+    background: #fff; padding: 60px 48px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 32px; border-top: 1px solid var(--light-border);
+  }
+  .feature { text-align: center; }
+  .feature-icon { font-size: 32px; margin-bottom: 14px; }
+  .feature-title { font-size: 14px; font-weight: 700; letter-spacing: .5px; margin-bottom: 6px; }
+  .feature-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { padding: 80px 48px; background: var(--cream); }
+  .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .testimonial-card {
+    background: #fff; border-radius: 12px;
+    padding: 32px; border: 1px solid var(--light-border);
+  }
+  .testimonial-stars { color: #F5A623; font-size: 14px; margin-bottom: 14px; }
+  .testimonial-text { font-size: 14px; line-height: 1.8; color: var(--muted); margin-bottom: 20px; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .author-avatar {
+    width: 40px; height: 40px; border-radius: 50%; object-fit: cover;
+  }
+  .author-name { font-size: 14px; font-weight: 600; color: var(--charcoal); }
+  .author-title { font-size: 12px; color: var(--muted); }
+
+  /* ── NEWSLETTER ── */
+  .newsletter {
+    background: var(--charcoal); padding: 80px 48px;
+    text-align: center;
+  }
+  .newsletter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3vw, 44px); color: #fff; margin-bottom: 12px;
+  }
+  .newsletter-sub { font-size: 15px; color: rgba(255,255,255,.6); margin-bottom: 36px; }
+  .newsletter-form {
+    display: flex; gap: 0; max-width: 500px; margin: 0 auto;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2); border-radius: 8px;
+    overflow: hidden;
+  }
+  .newsletter-form input {
+    flex: 1; background: none; border: none; outline: none;
+    padding: 16px 20px; color: #fff; font-size: 14px;
+  }
+  .newsletter-form input::placeholder { color: rgba(255,255,255,.45); }
+  .newsletter-form button {
+    background: var(--rust); color: #fff; border: none;
+    padding: 16px 28px; font-size: 13px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+    transition: background .2s;
+  }
+  .newsletter-form button:hover { background: #a8432c; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #111; color: rgba(255,255,255,.6);
+    padding: 64px 48px 32px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px; margin-bottom: 48px;
+  }
+  .footer-brand-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px; font-weight: 700; color: #fff; letter-spacing: 3px;
+    margin-bottom: 16px;
+  }
+  .footer-brand-text { font-size: 13px; line-height: 1.8; margin-bottom: 24px; }
+  .footer-socials { display: flex; gap: 12px; }
+  .social-btn {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: rgba(255,255,255,.7);
+    cursor: pointer; text-decoration: none; transition: all .2s;
+  }
+  .social-btn:hover { background: var(--rust); color: #fff; border-color: var(--rust); }
+  .footer-col h4 {
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: #fff; font-weight: 700; margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li a {
+    font-size: 13px; color: rgba(255,255,255,.55);
+    text-decoration: none; transition: color .2s;
+  }
+  .footer-col ul li a:hover { color: var(--sand); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding-top: 24px; display: flex;
+    justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-bottom p { font-size: 12px; }
+  .payment-icons { display: flex; gap: 8px; }
+  .pay-icon {
+    background: rgba(255,255,255,.1); border-radius: 4px;
+    padding: 4px 10px; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; color: rgba(255,255,255,.7);
+  }
+
+  /* ── CART DRAWER ── */
+  .overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.4);
+    z-index: 1998; opacity: 0; pointer-events: none; transition: opacity .3s;
+  }
+  .overlay.open { opacity: 1; pointer-events: all; }
+  .cart-drawer {
+    position: fixed; top: 0; right: 0; bottom: 0; width: 420px;
+    background: #fff; z-index: 1999;
+    transform: translateX(100%); transition: transform .35s cubic-bezier(.4,0,.2,1);
+    display: flex; flex-direction: column;
+  }
+  .cart-drawer.open { transform: translateX(0); }
+  .cart-header {
+    padding: 24px 28px; border-bottom: 1px solid var(--light-border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .cart-header h2 { font-family: 'Playfair Display', serif; font-size: 22px; }
+  .cart-close {
+    background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted);
+  }
+  .cart-items { flex: 1; overflow-y: auto; padding: 24px 28px; }
+  .cart-item {
+    display: flex; gap: 16px; padding: 16px 0;
+    border-bottom: 1px solid var(--light-border);
+  }
+  .cart-item img { width: 80px; height: 100px; object-fit: cover; border-radius: 8px; }
+  .cart-item-info { flex: 1; }
+  .cart-item-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .cart-item-variant { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .cart-item-qty {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .qty-btn {
+    width: 28px; height: 28px; border-radius: 6px;
+    border: 1px solid var(--light-border); background: none;
+    font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+  }
+  .qty-btn:hover { background: var(--charcoal); color: #fff; border-color: var(--charcoal); }
+  .cart-item-price { font-size: 15px; font-weight: 700; color: var(--charcoal); align-self: flex-end; }
+  .cart-footer { padding: 24px 28px; border-top: 1px solid var(--light-border); }
+  .cart-subtotal {
+    display: flex; justify-content: space-between;
+    font-size: 16px; font-weight: 700; margin-bottom: 16px;
+  }
+  .btn-checkout {
+    width: 100%; background: var(--charcoal); color: #fff;
+    border: none; padding: 16px; font-size: 14px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; border-radius: 8px;
+    cursor: pointer; transition: background .2s; margin-bottom: 10px;
+  }
+  .btn-checkout:hover { background: var(--rust); }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 32px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--charcoal); color: #fff;
+    padding: 14px 28px; border-radius: 40px;
+    font-size: 14px; font-weight: 600; z-index: 2000;
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1100px) {
+    .product-grid { grid-template-columns: repeat(3, 1fr); }
+    nav { padding: 0 24px; }
+    .hero-left { padding: 40px; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 16px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-right { grid-template-rows: auto; }
+    .hero-right-top { min-height: 280px; }
+    .hero-right-bottom { min-height: 180px; }
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+    section.products, .categories, .testimonials, .newsletter { padding: 48px 20px; }
+    .banner-strip { grid-template-columns: 1fr; margin: 0 20px 60px; }
+    .banner-img { display: none; }
+    .features { grid-template-columns: repeat(2, 1fr); padding: 40px 20px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .cat-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .cat-card:first-child { grid-row: span 1; }
+    .testimonial-grid { grid-template-columns: 1fr; }
+    .cart-drawer { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT -->
+<div class="announcement">
+  ✨ Summer Sale — Up to <span>50% OFF</span> · Free Shipping on Orders Over ₹999 ✨
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">VELOUR</a>
+  <ul class="nav-links">
+    <li><a href="#">New In</a></li>
+    <li><a href="#">Women</a></li>
+    <li><a href="#">Men</a></li>
+    <li><a href="#">Sale</a></li>
+    <li><a href="#">Lookbook</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="nav-search">
+      <span>🔍</span>
+      <input type="text" placeholder="Search styles…"/>
+    </div>
+    <button title="Wishlist">♡</button>
+    <button title="Account">👤</button>
+    <button id="cartBtn" title="Cart" style="position:relative">
+      🛍
+      <span class="cart-badge" id="cartCount">2</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-left-content">
+      <span class="hero-tag">New Collection 2025</span>
+      <h1 class="hero-title">Dress the<br/>Life You Want</h1>
+      <p class="hero-sub">Effortless luxury for every occasion. Curated pieces that move with you — from sunrise to sunset.</p>
+      <a href="#products" class="btn-primary">Shop Now →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-top">
+      <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80" alt="Fashion"/>
+    </div>
+    <div class="hero-right-bottom">
+      <div class="hero-mini">
+        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400&q=80" alt="Women"/>
+        <span class="hero-mini-label">Women</span>
+      </div>
+      <div class="hero-mini">
+        <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=400&q=80" alt="Men"/>
+        <span class="hero-mini-label">Men</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>New Arrivals</span><span class="dot">✦</span>
+    <span>Summer Sale Up to 50% Off</span><span class="dot">✦</span>
+    <span>Free Returns</span><span class="dot">✦</span>
+    <span>Sustainable Fashion</span><span class="dot">✦</span>
+    <span>Express Delivery</span><span class="dot">✦</span>
+    <span>New Arrivals</span><span class="dot">✦</span>
+    <span>Summer Sale Up to 50% Off</span><span class="dot">✦</span>
+    <span>Free Returns</span><span class="dot">✦</span>
+    <span>Sustainable Fashion</span><span class="dot">✦</span>
+    <span>Express Delivery</span><span class="dot">✦</span>
+    <span>New Arrivals</span><span class="dot">✦</span>
+    <span>Summer Sale Up to 50% Off</span><span class="dot">✦</span>
+    <span>Free Returns</span><span class="dot">✦</span>
+    <span>Sustainable Fashion</span><span class="dot">✦</span>
+    <span>Express Delivery</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="section-header">
+    <div>
+      <p class="section-eyebrow">Trending Now</p>
+      <h2 class="section-title">Featured Styles</h2>
+    </div>
+    <a href="#" class="btn-outline">View All</a>
+  </div>
+  <div class="filters">
+    <button class="filter-btn active" onclick="setFilter(this,'all')">All</button>
+    <button class="filter-btn" onclick="setFilter(this,'women')">Women</button>
+    <button class="filter-btn" onclick="setFilter(this,'men')">Men</button>
+    <button class="filter-btn" onclick="setFilter(this,'sale')">Sale</button>
+    <button class="filter-btn" onclick="setFilter(this,'new')">New In</button>
+  </div>
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<!-- BANNER STRIP -->
+<div class="banner-strip">
+  <div class="banner-content">
+    <p class="banner-eyebrow">Limited Time Offer</p>
+    <h2 class="banner-title">End of Season<br/><em>Mega Sale</em></h2>
+    <p class="banner-text">Up to 50% off on selected premium styles. Don't miss your chance to update your wardrobe at unbeatable prices.</p>
+    <a href="#" class="btn-primary">Grab the Deal →</a>
+  </div>
+  <div class="banner-img">
+    <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80" alt="Sale"/>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <div class="section-header">
+    <div>
+      <p class="section-eyebrow">Discover</p>
+      <h2 class="section-title">Shop by Category</h2>
+    </div>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80" alt="Women"/>
+      <div class="cat-overlay">
+        <div><div class="cat-name">Women</div><div class="cat-count">284 items</div></div>
+      </div>
+    </div>
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=400&q=80" alt="Men"/>
+      <div class="cat-overlay">
+        <div><div class="cat-name">Men</div><div class="cat-count">196 items</div></div>
+      </div>
+    </div>
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&q=80" alt="Accessories"/>
+      <div class="cat-overlay">
+        <div><div class="cat-name">Accessories</div><div class="cat-count">112 items</div></div>
+      </div>
+    </div>
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?w=400&q=80" alt="Summer"/>
+      <div class="cat-overlay">
+        <div><div class="cat-name">Summer Edit</div><div class="cat-count">88 items</div></div>
+      </div>
+    </div>
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&q=80" alt="Kids"/>
+      <div class="cat-overlay">
+        <div><div class="cat-name">Kids</div><div class="cat-count">74 items</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<div class="features">
+  <div class="feature">
+    <div class="feature-icon">🚚</div>
+    <div class="feature-title">Free Shipping</div>
+    <div class="feature-text">On all orders over ₹999. Express and same-day delivery available.</div>
+  </div>
+  <div class="feature">
+    <div class="feature-icon">↩️</div>
+    <div class="feature-title">Easy Returns</div>
+    <div class="feature-text">30-day hassle-free returns. No questions asked.</div>
+  </div>
+  <div class="feature">
+    <div class="feature-icon">🔒</div>
+    <div class="feature-title">Secure Payments</div>
+    <div class="feature-text">100% secure checkout with UPI, cards & net banking.</div>
+  </div>
+  <div class="feature">
+    <div class="feature-icon">💬</div>
+    <div class="feature-title">24/7 Support</div>
+    <div class="feature-text">Expert style advice and support, whenever you need it.</div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-header">
+    <div>
+      <p class="section-eyebrow">Happy Customers</p>
+      <h2 class="section-title">What They Say</h2>
+    </div>
+  </div>
+  <div class="testimonial-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"The quality blew me away — fabric feels luxurious. The fit is perfect. I've already ordered three more pieces. VELOUR is now my go-to for everything!"</p>
+      <div class="testimonial-author">
+        <img class="author-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya"/>
+        <div><div class="author-name">Priya S.</div><div class="author-title">Mumbai • Verified Buyer</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Ordered during the sale and received the package next day! Beautiful packaging, stunning clothes — exactly as photographed. Absolutely love it."</p>
+      <div class="testimonial-author">
+        <img class="author-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rohan"/>
+        <div><div class="author-name">Rohan K.</div><div class="author-title">Bangalore • Verified Buyer</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★☆</div>
+      <p class="testimonial-text">"The customer service is fantastic. Had a minor size issue and they sorted it out immediately. The clothes are gorgeous and the prices are amazing."</p>
+      <div class="testimonial-author">
+        <img class="author-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Ananya"/>
+        <div><div class="author-name">Ananya M.</div><div class="author-title">Delhi • Verified Buyer</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <h2 class="newsletter-title">Get Early Access</h2>
+  <p class="newsletter-sub">Subscribe and be the first to know about new drops, exclusive deals & style guides.</p>
+  <div class="newsletter-form">
+    <input type="email" placeholder="Enter your email address…"/>
+    <button>Subscribe</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-logo">VELOUR</div>
+      <p class="footer-brand-text">Curated fashion for the modern wardrobe. Premium quality, timeless style, delivered to your door.</p>
+      <div class="footer-socials">
+        <a class="social-btn" href="#">𝕏</a>
+        <a class="social-btn" href="#">f</a>
+        <a class="social-btn" href="#">in</a>
+        <a class="social-btn" href="#">📸</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">Women</a></li>
+        <li><a href="#">Men</a></li>
+        <li><a href="#">Kids</a></li>
+        <li><a href="#">Sale</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Track My Order</a></li>
+        <li><a href="#">Returns & Exchanges</a></li>
+        <li><a href="#">Size Guide</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About VELOUR</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 VELOUR. All rights reserved.</p>
+    <div class="payment-icons">
+      <span class="pay-icon">UPI</span>
+      <span class="pay-icon">VISA</span>
+      <span class="pay-icon">MC</span>
+      <span class="pay-icon">AMEX</span>
+      <span class="pay-icon">GPay</span>
+    </div>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h2>Your Bag (2)</h2>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items">
+    <div class="cart-item">
+      <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?w=200&q=80" alt="Product"/>
+      <div class="cart-item-info">
+        <div class="cart-item-name">Linen Maxi Dress</div>
+        <div class="cart-item-variant">Ivory · Size M</div>
+        <div class="cart-item-qty">
+          <button class="qty-btn">−</button>
+          <span>1</span>
+          <button class="qty-btn">+</button>
+        </div>
+      </div>
+      <div class="cart-item-price">₹2,499</div>
+    </div>
+    <div class="cart-item">
+      <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=200&q=80" alt="Product"/>
+      <div class="cart-item-info">
+        <div class="cart-item-name">Slim Chino Trousers</div>
+        <div class="cart-item-variant">Navy · Size 32</div>
+        <div class="cart-item-qty">
+          <button class="qty-btn">−</button>
+          <span>1</span>
+          <button class="qty-btn">+</button>
+        </div>
+      </div>
+      <div class="cart-item-price">₹1,899</div>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-subtotal"><span>Subtotal</span><span>₹4,398</span></div>
+    <button class="btn-checkout">Proceed to Checkout</button>
+    <p style="text-align:center;font-size:12px;color:#999">Shipping & taxes calculated at checkout</p>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">🛍 Added to bag!</div>
+
+<script>
+// ── PRODUCTS DATA ──
+const products = [
+  { id:1, name:'Floral Wrap Dress', brand:'Studio VELOUR', price:2499, old:3499, img:'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=500&q=80', badge:'sale', cat:'women', rating:4.8, reviews:124, colors:['#F5D6C8','#C8A8B8','#1A1A1A'] },
+  { id:2, name:'Oversized Linen Shirt', brand:'Studio VELOUR', price:1799, old:null, img:'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500&q=80', badge:'new', cat:'men', rating:4.7, reviews:88, colors:['#EDE0D4','#2B3A4A','#E8E0D5'] },
+  { id:3, name:'Wide-Leg Trousers', brand:'Studio VELOUR', price:3299, old:4199, img:'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=500&q=80', badge:'sale', cat:'women', rating:4.9, reviews:211, colors:['#1A1A1A','#C8B99A','#8B7355'] },
+  { id:4, name:'Merino Crew Sweater', brand:'Studio VELOUR', price:4499, old:null, img:'https://images.unsplash.com/photo-1551232864-3f0890e580d9?w=500&q=80', badge:'new', cat:'men', rating:4.6, reviews:67, colors:['#F5F0E8','#B5C4B1','#8B5E3C'] },
+  { id:5, name:'Silk Midi Skirt', brand:'Studio VELOUR', price:2999, old:3999, img:'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500&q=80', badge:'hot', cat:'women', rating:5.0, reviews:302, colors:['#D4AF91','#8BA0B0','#C0533A'] },
+  { id:6, name:'Structured Blazer', brand:'Studio VELOUR', price:5999, old:7999, img:'https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=500&q=80', badge:'sale', cat:'men', rating:4.8, reviews:143, colors:['#2B2622','#6B7280','#C8B99A'] },
+  { id:7, name:'Broderie Anglaise Top', brand:'Studio VELOUR', price:1599, old:null, img:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=500&q=80', badge:'new', cat:'women', rating:4.5, reviews:54, colors:['#FFFFFF','#FFD4C8','#1A1A1A'] },
+  { id:8, name:'Slim Chino Shorts', brand:'Studio VELOUR', price:1899, old:2499, img:'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&q=80', badge:'sale', cat:'men', rating:4.7, reviews:99, colors:['#E8D5B0','#4A5568','#2B2622'] },
+];
+
+let cartCount = 2;
+let currentFilter = 'all';
+
+function setFilter(btn, cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts();
+}
+
+function renderProducts() {
+  const grid = document.getElementById('productGrid');
+  const filtered = currentFilter === 'all'
+    ? products
+    : products.filter(p => p.cat === currentFilter || p.badge === currentFilter);
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="${p.img}" alt="${p.name}" loading="lazy"/>
+        ${p.badge ? `<span class="product-badge badge-${p.badge}">${p.badge === 'sale' ? '🔥 Sale' : p.badge === 'new' ? '✦ New' : '⚡ Hot'}</span>` : ''}
+        <div class="product-actions">
+          <button class="btn-add-cart" onclick="addToCart('${p.name}')">Add to Bag</button>
+          <button class="btn-wish">♡</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-brand">${p.brand}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-colors">
+          ${p.colors.map(c => `<div class="color-dot" style="background:${c}"></div>`).join('')}
+        </div>
+        <div class="product-price">
+          <span class="price-current">₹${p.price.toLocaleString('en-IN')}</span>
+          ${p.old ? `<span class="price-old">₹${p.old.toLocaleString('en-IN')}</span>` : ''}
+          ${p.old ? `<span class="price-save">Save ${Math.round((1-p.price/p.old)*100)}%</span>` : ''}
+        </div>
+        <div class="product-rating">
+          <span class="stars">${'★'.repeat(Math.floor(p.rating))}${p.rating % 1 ? '½' : ''}</span>
+          <span class="rating-count">(${p.reviews})</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addToCart(name) {
+  cartCount++;
+  document.getElementById('cartCount').textContent = cartCount;
+  const toast = document.getElementById('toast');
+  toast.querySelector
+  toast.textContent = `🛍 "${name}" added to bag!`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2600);
+}
+
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+document.getElementById('cartBtn').addEventListener('click', () => {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+});
+
+// Init
+renderProducts();
+</script>
+</body>
+</html>
